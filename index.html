@@ -1,0 +1,36 @@
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="fonts.css" />
+    <link rel="stylesheet" href="index.css" />
+    <title>Movie Watchlist</title>
+  </head>
+  <body>
+    <header class="header">
+      <img src="./img/bg-img.png" alt="header background" />
+      <div class="header--content">
+        <h1>Find your film</h1>
+        <p>My Watchlist</p>
+      </div>
+    </header>
+    <main>
+      <section class="search--section">
+        <div class="search-container">
+          <input
+            type="text"
+            id="movie-search"
+            class="search-input"
+            placeholder="Search for a movie"
+          />
+          <img src="/img/search-icon.png" class="search-icon" />
+          <button id="search-button" class="search-button">Search</button>
+        </div>
+      </section>
+      <section id="movies-container" class="movies--container">
+        <!-- Movie results will be displayed here -->
+        <img src="./img/movie-icon.png" alt="film icon" class="film-icon" />
+        <p>Start exploring</p>
+      </section>
+    </main>
+    <script src="index.js"></script>
+  </body>
+</html>
