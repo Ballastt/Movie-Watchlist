@@ -1,13 +1,8 @@
 const apiKey = import.meta.env.VITE_OMDB_API_KEY;
 
 document.addEventListener("DOMContentLoaded", () => {
-  const searchBtn = document.getElementById("search-button");
-
-  searchBtn.addEventListener("click", () => {
-    console.log("Search button clicked");
-    const searchTerm = document.getElementById("movie-search").value;
-    searchMovies(searchTerm);
-  });
+    setupSearchButton();
+    setupWatchlistButton();
 });
 
 function searchMovies(searchTerm) {
@@ -29,9 +24,43 @@ function searchMovies(searchTerm) {
               displayMovie(detailedMovie);
             });
         });
+      } else {
+        showMessage(
+          "Unable to find what you're looking for. Please try another search."
+        );
       }
     })
     .catch((error) => console.error("Error:", error));
+}
+
+function setupSearchButton() {
+  const searchBtn = document.getElementById("search-button");
+
+  searchBtn.addEventListener("click", () => {
+    console.log("Search button clicked");
+    const searchInput = document.getElementById("movie-search");
+    const searchTerm = searchInput.value.trim();
+
+    if (!searchTerm) {
+      showEmptySearchMessage();
+      return;
+    }
+
+    searchMovies(searchTerm);
+    searchInput.value = ""; // Clear the input field after search
+  });
+}
+
+function setupWatchlistButton() {
+  const moviesContainer = document.getElementById("movies-container");
+  
+  moviesContainer.addEventListener("click", (e) => {
+    console.log("Movies container clicked");
+    if (e.target.classList.contains("add-to-watchlist-btn")) {
+      const movieId = e.target.dataset.id;
+      addToWatchlist(movieId);
+    }
+  });
 }
 
 function displayMovie(movie) {
@@ -45,7 +74,7 @@ function displayMovie(movie) {
                 <div class="movie-header">
                     <h3>${movie.Title}</h3>
                     <div class="rating">
-                        <span class="star">⭐</span>
+                        <span class="star"><img src="/img/star.png" alt="star"></span>
                         <span>${movie.imdbRating}</span>
                     </div>
                 </div>
@@ -53,7 +82,7 @@ function displayMovie(movie) {
                     <span>${movie.Runtime}</span>
                     <span>${movie.Genre}</span>
                 </div>
-                 <button class="add-watchlist" data-id="${movie.imdbID}"><img src="/img/add.png" alt="Watchlist"> Watchlist</button>
+                 <button class="add-to-watchlist-btn" data-id="${movie.imdbID}"><img src="/img/add.png" alt="Watchlist"> Watchlist</button>
                 <p class="movie-plot">${movie.Plot}</p>
             </div>
         </div>
@@ -63,3 +92,33 @@ function displayMovie(movie) {
 
   moviesContainer.innerHTML += movieHTML;
 }
+
+// Show message with icon (for no results found)
+function showMessage(message) {
+  const moviesContainer = document.getElementById("movies-container");
+  moviesContainer.innerHTML = `
+    <img src="./img/movie-icon.png" alt="film icon" class="film-icon" />
+    <p>${message}</p>
+  `;
+}
+
+// Show message without icon (for empty search)
+function showEmptySearchMessage() {
+  const moviesContainer = document.getElementById("movies-container");
+  moviesContainer.innerHTML = `
+    <p>Unable to find what you're looking for. Please try another search.</p>
+  `;
+}
+
+//Add a movie to watchlist using local storage
+function addToWatchlist(movieId) {
+  let watchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
+    if (!watchlist.includes(movieId)) {
+        watchlist.push(movieId);
+        localStorage.setItem("watchlist", JSON.stringify(watchlist));
+    } else {
+        alert("Movie is already in your watchlist.");
+    }
+}
+
+
