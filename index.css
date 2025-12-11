@@ -35,7 +35,7 @@ main {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: brightness(30%);
+  filter: brightness(50%);
 }
 
 .header--content {
@@ -89,20 +89,20 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2em;
+  gap: 1em;
 }
 
 .movies--container p {
   color: #dfdddd;
   font-size: 1.2rem;
   font-weight: bold;
-  padding: 0 1em;
 }
 
 .search-container {
   position: relative;
-  max-width: 500px; /* adjust to your design */
-  width: 300px;
+  width: 90%;
+  max-width: 800px; /* adjust to your design */
+  min-width: 300px;
   margin: -20px auto 0;
   z-index: 2;
 }
@@ -133,7 +133,8 @@ main {
 .movie-card {
   display: flex;
   flex-direction: column;
-  width: 300px;
+  min-width: 300px;
+  width: 100%;
   border-radius: 8px;
   overflow: hidden;
 
@@ -160,6 +161,7 @@ main {
 }
 
 .movie-header {
+  color: #111827;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -174,14 +176,18 @@ main {
 }
 
 .movie-info {
+  color: #111827;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 1em;
   font-size: 0.875rem;
   padding: 0.5em 0;
 }
 
 .add-to-watchlist-btn {
+  color: #111827;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -223,7 +229,6 @@ main {
   }
 }
 
-
 .add-movies-link {
   display: flex;
   align-items: center;
@@ -243,4 +248,52 @@ main {
     margin: 0;
     padding: 0;
   }
+}
+
+#watchlist-container {
+  align-items: flex-start;
+  @media (min-width: 508px) {
+     align-items: center;
+  }
+
+  p:nth-child(1),
+  a {
+    padding-left: 2vw;
+  }
+}
+
+@media (min-width: 420px) {
+  #watchlist-container {
+    p:nth-child(1),
+    a {
+      padding-left: 3vw;
+    }
+  }
+
+  .movie-details p {
+    font-size: 1rem;
+  }
+
+}
+
+/* Toast Notification */
+.toast {
+  position: fixed;
+  bottom: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+  background-color: #111827;
+  color: white;
+  padding: 1em 1.8em;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: bottom 0.3s ease;
+  z-index: 1000;
+}
+
+.toast.show {
+  bottom: 30px;
 }

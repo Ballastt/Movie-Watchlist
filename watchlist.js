@@ -30,9 +30,12 @@ function loadWatchlist() {
 function displayMovie(movie) {
   const watchlistContainer = document.getElementById("watchlist-container");
 
+  // Use placeholder if poster is N/A or invalid
+  const posterUrl = (movie.Poster && movie.Poster !== 'N/A') ? movie.Poster : '/img/placeholder-poster.png';
+
   const movieHTML = `
     <div class="movie-card">
-      <img src="${movie.Poster}" alt="${movie.Title}" class="movie-poster">
+      <img src="${posterUrl}" alt="${movie.Title}" class="movie-poster" onerror="this.src='/img/placeholder-poster.png'">
       <div class="movie-details">
         <div class="movie-header">
           <h3>${movie.Title}</h3>

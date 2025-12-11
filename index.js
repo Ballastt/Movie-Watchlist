@@ -1,8 +1,8 @@
 const apiKey = import.meta.env.VITE_OMDB_API_KEY;
 
 document.addEventListener("DOMContentLoaded", () => {
-    setupSearchButton();
-    setupWatchlistButton();
+  setupSearchButton();
+  setupWatchlistButton();
 });
 
 function searchMovies(searchTerm) {
@@ -41,19 +41,16 @@ function setupSearchButton() {
     const searchInput = document.getElementById("movie-search");
     const searchTerm = searchInput.value.trim();
 
-    if (!searchTerm) {
-      showEmptySearchMessage();
-      return;
-    }
+    if (!searchTerm) return showEmptySearchMessage();
 
     searchMovies(searchTerm);
-    searchInput.value = ""; // Clear the input field after search
+    searchInput.value = ""; 
   });
 }
 
 function setupWatchlistButton() {
   const moviesContainer = document.getElementById("movies-container");
-  
+
   moviesContainer.addEventListener("click", (e) => {
     console.log("Movies container clicked");
     if (e.target.classList.contains("add-to-watchlist-btn")) {
@@ -66,10 +63,16 @@ function setupWatchlistButton() {
 function displayMovie(movie) {
   const moviesContainer = document.getElementById("movies-container");
 
+  // Use placeholder if poster is N/A or invalid
+  const posterUrl =
+    movie.Poster && movie.Poster !== "N/A"
+      ? movie.Poster
+      : "/img/placeholder-poster.png";
+
   // Create HTML for one movie and add it to the container
   const movieHTML = `
         <div class="movie-card">
-            <img src="${movie.Poster}" alt="${movie.Title}" class="movie-poster">
+            <img loading="lazy" src="${posterUrl}" alt="${movie.Title}" class="movie-poster" onerror="this.src='/img/placeholder-poster.png'">
             <div class="movie-details">
                 <div class="movie-header">
                     <h3>${movie.Title}</h3>
@@ -81,8 +84,9 @@ function displayMovie(movie) {
                 <div class="movie-info">
                     <span>${movie.Runtime}</span>
                     <span>${movie.Genre}</span>
+                    <button class="add-to-watchlist-btn" data-id="${movie.imdbID}"><img src="/img/add.png" alt="Watchlist"> Watchlist</button>
                 </div>
-                 <button class="add-to-watchlist-btn" data-id="${movie.imdbID}"><img src="/img/add.png" alt="Watchlist"> Watchlist</button>
+                 
                 <p class="movie-plot">${movie.Plot}</p>
             </div>
         </div>
@@ -113,12 +117,28 @@ function showEmptySearchMessage() {
 //Add a movie to watchlist using local storage
 function addToWatchlist(movieId) {
   let watchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
-    if (!watchlist.includes(movieId)) {
-        watchlist.push(movieId);
-        localStorage.setItem("watchlist", JSON.stringify(watchlist));
-    } else {
-        alert("Movie is already in your watchlist.");
-    }
+  if (!watchlist.includes(movieId)) {
+    watchlist.push(movieId);
+    localStorage.setItem("watchlist", JSON.stringify(watchlist));
+    showToast("Added to watchlist!");
+  } else {
+    showToast("Already in your watchlist");
+  }
 }
 
-
+function showToast(message) {
+  // Create toast element
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.textContent = message;
+  document.body.appendChild(toast);
+  
+  // Show toast
+  setTimeout(() => toast.classList.add('show'), 50);
+  
+  // Remove toast after 3 seconds
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => toast.remove(), 300);
+  }, 3000);
+}
