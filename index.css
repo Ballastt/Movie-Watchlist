@@ -62,10 +62,30 @@ main {
   font-weight: extra-bold;
 }
 
-.header--content p {
+.watchlist-link {
   cursor: pointer;
   font-size: 1.25rem;
   font-weight: bold;
+  color: white;
+  text-decoration: none;
+}
+
+.watchlist-link:hover,
+.watchlist-link:focus {
+  text-decoration: underline;
+}
+
+/* Visually hidden but accessible to screen readers */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .search-input {

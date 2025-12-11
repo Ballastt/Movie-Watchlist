@@ -52,7 +52,6 @@ function setupWatchlistButton() {
   const moviesContainer = document.getElementById("movies-container");
 
   moviesContainer.addEventListener("click", (e) => {
-    console.log("Movies container clicked");
     if (e.target.classList.contains("add-to-watchlist-btn")) {
       const movieId = e.target.dataset.id;
       addToWatchlist(movieId);
@@ -62,39 +61,39 @@ function setupWatchlistButton() {
 
 function displayMovie(movie) {
   const moviesContainer = document.getElementById("movies-container");
+  const movieHTML = createMovieCardHTML(movie);
+  moviesContainer.innerHTML += movieHTML;
+}
 
+function createMovieCardHTML(movie) {
   // Use placeholder if poster is N/A or invalid
   const posterUrl =
     movie.Poster && movie.Poster !== "N/A"
       ? movie.Poster
       : "/img/placeholder-poster.png";
 
-  // Create HTML for one movie and add it to the container
-  const movieHTML = `
-        <div class="movie-card">
-            <img loading="lazy" src="${posterUrl}" alt="${movie.Title}" class="movie-poster" onerror="this.src='/img/placeholder-poster.png'">
-            <div class="movie-details">
-                <div class="movie-header">
-                    <h3>${movie.Title}</h3>
-                    <div class="rating">
-                        <span class="star"><img src="/img/star.png" alt="star"></span>
-                        <span>${movie.imdbRating}</span>
-                    </div>
+  return `
+    <div class="movie-card">
+        <img loading="lazy" src="${posterUrl}" alt="${movie.Title}" class="movie-poster" onerror="this.src='/img/placeholder-poster.png'">
+        <div class="movie-details">
+            <div class="movie-header">
+                <h3>${movie.Title}</h3>
+                <div class="rating">
+                    <span class="star"><img src="/img/star.png" alt="star"></span>
+                    <span>${movie.imdbRating}</span>
                 </div>
-                <div class="movie-info">
-                    <span>${movie.Runtime}</span>
-                    <span>${movie.Genre}</span>
-                    <button class="add-to-watchlist-btn" data-id="${movie.imdbID}"><img src="/img/add.png" alt="Watchlist"> Watchlist</button>
-                </div>
-                 
-                <p class="movie-plot">${movie.Plot}</p>
             </div>
+            <div class="movie-info">
+                <span>${movie.Runtime}</span>
+                <span>${movie.Genre}</span>
+                <button class="add-to-watchlist-btn" data-id="${movie.imdbID}"><img src="/img/add.png" alt="Watchlist"> Watchlist</button>
+            </div>
+             
+            <p class="movie-plot">${movie.Plot}</p>
         </div>
-        <div class="divider"></div>
-        
-    `;
-
-  moviesContainer.innerHTML += movieHTML;
+    </div>
+    <div class="divider"></div>
+  `;
 }
 
 // Show message with icon (for no results found)
@@ -127,7 +126,6 @@ function addToWatchlist(movieId) {
 }
 
 function showToast(message) {
-  // Create toast element
   const toast = document.createElement('div');
   toast.className = 'toast';
   toast.textContent = message;

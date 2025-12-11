@@ -14,20 +14,22 @@
       <img src="./img/bg-img.webp" alt="header background" />
       <div class="header--content">
         <h1>Find your film</h1>
-        <a href="watchlist.html"><p>My Watchlist</p></a>
+        <a href="watchlist.html" class="watchlist-link">My Watchlist</a>
       </div>
     </header>
     <main>
-      <section class="search--section">
+      <section class="search--section" aria-label="Movie search">
         <div class="search-container">
+          <label for="movie-search" class="visually-hidden">Search for a movie</label>
           <input
             type="text"
             id="movie-search"
             class="search-input"
             placeholder="Search for a movie"
+            aria-label="Search for a movie"
           />
-          <img src="/img/search-icon.png" class="search-icon" />
-          <button id="search-button" class="search-button">Search</button>
+          <img src="/img/search-icon.png" alt="" class="search-icon" aria-hidden="true" />
+          <button id="search-button" class="search-button" aria-label="Search for movies">Search</button>
         </div>
       </section>
       <section id="movies-container" class="movies--container">
