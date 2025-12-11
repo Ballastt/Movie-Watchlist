@@ -29,9 +29,11 @@ function loadWatchlist() {
 
 function displayMovie(movie) {
   const watchlistContainer = document.getElementById("watchlist-container");
-
-  // Use placeholder if poster is N/A or invalid
-  const posterUrl = (movie.Poster && movie.Poster !== 'N/A') ? movie.Poster : '/img/placeholder-poster.png';
+  
+  const posterUrl =
+    movie.Poster && movie.Poster !== "N/A"
+      ? movie.Poster
+      : "/img/placeholder-poster.png";
 
   const movieHTML = `
     <div class="movie-card">
@@ -47,10 +49,10 @@ function displayMovie(movie) {
         <div class="movie-info">
           <span>${movie.Runtime}</span>
           <span>${movie.Genre}</span>
-        </div>
-        <button class="remove-watchlist" data-id="${movie.imdbID}">
-          <img src="/img/remove.png" alt="Remove"> Remove
+          <button class="remove-watchlist" data-id="${movie.imdbID}">
+          <img src="/img/remove-icon.png" alt="Remove"> Remove
         </button>
+        </div>
         <p class="movie-plot">${movie.Plot}</p>
       </div>
     </div>
@@ -64,8 +66,10 @@ function setupRemoveButtons() {
   const watchlistContainer = document.getElementById("watchlist-container");
 
   watchlistContainer.addEventListener("click", (e) => {
-    if (e.target.classList.contains("remove-watchlist") || 
-        e.target.closest(".remove-watchlist")) {
+    if (
+      e.target.classList.contains("remove-watchlist") ||
+      e.target.closest(".remove-watchlist")
+    ) {
       const button = e.target.closest(".remove-watchlist");
       const movieId = button.dataset.id;
       removeFromWatchlist(movieId);
@@ -77,8 +81,7 @@ function removeFromWatchlist(movieId) {
   let watchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
   watchlist = watchlist.filter((id) => id !== movieId);
   localStorage.setItem("watchlist", JSON.stringify(watchlist));
-  
-  // Reload the watchlist display
+
   loadWatchlist();
 }
 

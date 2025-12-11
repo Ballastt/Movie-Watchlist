@@ -206,7 +206,8 @@ main {
   padding: 0.5em 0;
 }
 
-.add-to-watchlist-btn {
+.add-to-watchlist-btn,
+.remove-watchlist {
   color: #111827;
   display: flex;
   align-items: center;
@@ -316,4 +317,10 @@ main {
 
 .toast.show {
   bottom: 30px;
+}
+
+
+.remove-watchlist img {
+  width: 16px;
+  height: 16px;
 }
